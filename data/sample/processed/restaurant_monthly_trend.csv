@@ -1,0 +1,10 @@
+﻿month_label,period_label,month_end_ds,fixed_restaurant_merchant_count,active_restaurant_merchant_count_rolling30,rolling30_trade_count,rolling30_trade_money_fen,rolling30_trade_money_yuan,avg_rolling30_trade_count_per_fixed_restaurant_merchant,avg_rolling30_trade_money_yuan_per_fixed_restaurant_merchant,avg_rolling30_trade_count_per_active_restaurant_merchant,avg_rolling30_trade_money_yuan_per_active_restaurant_merchant
+2024-04,baseline_2024_04_to_2025_03_restaurant_only_month_end_rolling30,20240430,1068,420,8000,220000000,2200000,7.5,2060,19.0,5200
+2024-07,baseline_2024_04_to_2025_03_restaurant_only_month_end_rolling30,20240730,1068,462,9900,262000000,2620000,9.3,2450,19.8,5420
+2024-10,baseline_2024_04_to_2025_03_restaurant_only_month_end_rolling30,20241030,1068,504,11800,304000000,3040000,11.1,2840,20.6,5640
+2025-01,baseline_2024_04_to_2025_03_restaurant_only_month_end_rolling30,20250131,1068,546,13700,346000000,3460000,12.9,3230,21.4,5860
+2025-04,activity_2025_04_to_2026_04_restaurant_only_month_end_rolling30,20250430,1068,588,15600,388000000,3880000,14.7,3620,22.2,6080
+2025-07,activity_2025_04_to_2026_04_restaurant_only_month_end_rolling30,20250730,1068,630,17500,430000000,4300000,16.5,4010,23.0,6300
+2025-10,activity_2025_04_to_2026_04_restaurant_only_month_end_rolling30,20251030,1068,672,19400,472000000,4720000,18.3,4400,23.8,6520
+2026-01,activity_2025_04_to_2026_04_restaurant_only_month_end_rolling30,20260131,1068,714,21300,514000000,5140000,20.1,4790,24.6,6740
+2026-04,activity_2025_04_to_2026_04_restaurant_only_month_end_rolling30,20260430,1068,756,23200,556000000,5560000,21.9,5180,25.4,6960

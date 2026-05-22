@@ -1,0 +1,3 @@
+﻿merchant_shortname,merchant_name,mcc_code,pay_amt_cny_yuan,cost_money_yuan,non_restaurant_refined_category
+Synthetic Health Store,Synthetic Health Ltd,5499,1000000,48000,1_health_supplement_daigou
+Synthetic Warehouse,Synthetic Warehouse Ltd,5499,800000,38000,2_daigou_warehouse_wholesale

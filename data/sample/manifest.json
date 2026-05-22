@@ -1,0 +1,9 @@
+{
+  "project_id": "anz-hospo-coupon",
+  "version": "sample",
+  "generated_at": "2026-05-22T08:21:38.114360+00:00",
+  "source": {
+    "baseline_window": "2024-04 to 2025-03",
+    "activity_window": "2025-04 to 2026-04"
+  }
+}

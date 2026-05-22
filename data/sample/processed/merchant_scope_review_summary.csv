@@ -1,0 +1,4 @@
+﻿segment,merchant_count,coupon_txn_cnt,pay_amt_cny_yuan,pay_share,txn_share
+restaurant_include,1068,21302,7163560.77,0.2219,0.5392
+non_restaurant_exclude,52,15086,23198175.61,0.7186,0.3818
+needs_review,139,3121,1918480.58,0.0594,0.079

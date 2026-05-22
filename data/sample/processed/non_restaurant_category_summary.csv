@@ -1,0 +1,4 @@
+﻿non_restaurant_category,merchant_count,coupon_txn_cnt,pay_amt_cny_yuan,cost_money_yuan,save_money_yuan,share_of_non_restaurant_pay,share_of_non_restaurant_cost,why_it_matters
+1_health_supplement_daigou,11,10790,13681238.23,651521.89,730730.31,0.5898,0.5938,Health/supplement demand may be outside NZ local dining.
+2_daigou_warehouse_wholesale,2,434,4717482.19,224270.64,251976.34,0.2034,0.2044,Warehouse/wholesale is not restaurant traffic.
+5_general_retail_trading,18,1833,2229362.51,102224.34,115811.85,0.0961,0.0932,Generic retail/trading is outside the main objective.

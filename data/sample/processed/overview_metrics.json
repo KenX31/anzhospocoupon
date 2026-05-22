@@ -1,0 +1,43 @@
+{
+  "all_redeeming": {
+    "merchant_count": 1259,
+    "coupon_txn_cnt": 39509,
+    "pay_amt_cny_yuan": 32280216.96,
+    "cost_money_yuan": 1503351.24,
+    "save_money_yuan": 1686677.08
+  },
+  "by_scope": {
+    "restaurant_include": {
+      "merchant_count": 1068,
+      "coupon_txn_cnt": 21302,
+      "pay_amt_cny_yuan": 7163560.77,
+      "cost_money_yuan": 322133.72,
+      "save_money_yuan": 360021.6
+    },
+    "non_restaurant_exclude": {
+      "merchant_count": 52,
+      "coupon_txn_cnt": 15086,
+      "pay_amt_cny_yuan": 23198175.61,
+      "cost_money_yuan": 1097158.86,
+      "save_money_yuan": 1231257.93
+    },
+    "needs_review": {
+      "merchant_count": 139,
+      "coupon_txn_cnt": 3121,
+      "pay_amt_cny_yuan": 1918480.58,
+      "cost_money_yuan": 84058.66,
+      "save_money_yuan": 95397.55
+    }
+  },
+  "restaurant_activity_lift": {
+    "baseline_avg_active_merchants": 509.92,
+    "activity_avg_active_merchants": 785.54,
+    "active_merchants_lift_rate": 0.5405,
+    "baseline_avg_rolling30_trade_count": 10937.17,
+    "activity_avg_rolling30_trade_count": 18724.15,
+    "trade_count_lift_rate": 0.712,
+    "baseline_avg_rolling30_trade_money_yuan": 2915111.37,
+    "activity_avg_rolling30_trade_money_yuan": 4497842.61,
+    "trade_money_lift_rate": 0.5429
+  }
+}
