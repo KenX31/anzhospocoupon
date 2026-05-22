@@ -308,15 +308,34 @@ def overview_page(bundle: DataBundle) -> None:
     scope = bundle.frames["merchant_scope_review_summary"].copy()
     scope["pay_share"] = pd.to_numeric(scope["pay_share"], errors="coerce")
     scope["txn_share"] = pd.to_numeric(scope["txn_share"], errors="coerce")
-    fig = px.bar(
-        scope[scope["segment"].isin(["restaurant_include", "non_restaurant_exclude", "needs_review"])],
-        x="segment",
-        y="pay_amt_cny_yuan",
-        color="segment",
-        text="merchant_count",
-        labels={"pay_amt_cny_yuan": "核销支付金额 RMB", "segment": "商户范围"},
+    scope_chart = scope[scope["segment"].isin(["restaurant_include", "non_restaurant_exclude"])].copy()
+    scope_chart["商户范围"] = scope_chart["segment"].map(
+        {
+            "restaurant_include": "确定餐饮",
+            "non_restaurant_exclude": "确认非餐饮",
+        }
     )
-    fig.update_layout(showlegend=False, height=380, margin=dict(l=10, r=10, t=20, b=10))
+    scope_chart["核销支付金额RMB"] = pd.to_numeric(scope_chart["pay_amt_cny_yuan"], errors="coerce")
+    scope_chart["核销支付金额"] = scope_chart["核销支付金额RMB"].map(fmt_money)
+    fig = px.bar(
+        scope_chart,
+        x="商户范围",
+        y="核销支付金额RMB",
+        color="商户范围",
+        text="核销支付金额",
+        custom_data=["merchant_count"],
+        labels={"核销支付金额RMB": "核销支付金额 RMB", "商户范围": "商户范围"},
+    )
+    fig.update_traces(
+        textposition="outside",
+        hovertemplate="商户范围=%{x}<br>核销支付金额=%{text}<br>商户数=%{customdata[0]:,.0f}<extra></extra>",
+    )
+    fig.update_layout(
+        legend_title_text="商户范围",
+        height=380,
+        margin=dict(l=10, r=10, t=20, b=10),
+        yaxis_title="核销支付金额 RMB",
+    )
     st.plotly_chart(fig, use_container_width=True)
 
 
@@ -335,26 +354,37 @@ def restaurant_effect_page(bundle: DataBundle) -> None:
     monthly = bundle.frames["restaurant_monthly_trend"].copy()
     monthly["period"] = monthly["period_label"].map(normalized_period)
     monthly["month_label"] = monthly["month_label"].astype(str)
-    fig = px.line(
+    fig_txn = px.line(
         monthly,
         x="month_label",
-        y=["rolling30_trade_count", "active_restaurant_merchant_count_rolling30"],
-        markers=True,
-        labels={"value": "数量", "month_label": "月份", "variable": "指标"},
-    )
-    fig.update_layout(height=420, margin=dict(l=10, r=10, t=20, b=10))
-    st.plotly_chart(fig, use_container_width=True)
-
-    fig_money = px.line(
-        monthly,
-        x="month_label",
-        y="rolling30_trade_money_yuan",
+        y="rolling30_trade_count",
         color="period",
         markers=True,
-        labels={"rolling30_trade_money_yuan": "近30天交易金额 RMB", "month_label": "月份", "period": "时期"},
+        labels={"rolling30_trade_count": "近30天交易笔数", "month_label": "月份", "period": "时期"},
     )
-    fig_money.update_layout(height=380, margin=dict(l=10, r=10, t=20, b=10))
-    st.plotly_chart(fig_money, use_container_width=True)
+    fig_txn.update_layout(
+        height=420,
+        margin=dict(l=10, r=10, t=20, b=10),
+        legend_title_text="时期",
+        yaxis_title="近30天交易笔数",
+    )
+    st.plotly_chart(fig_txn, use_container_width=True)
+
+    fig_active = px.line(
+        monthly,
+        x="month_label",
+        y="active_restaurant_merchant_count_rolling30",
+        color="period",
+        markers=True,
+        labels={"active_restaurant_merchant_count_rolling30": "近30天活跃餐饮商户数", "month_label": "月份", "period": "时期"},
+    )
+    fig_active.update_layout(
+        height=380,
+        margin=dict(l=10, r=10, t=20, b=10),
+        legend_title_text="时期",
+        yaxis_title="近30天活跃餐饮商户数",
+    )
+    st.plotly_chart(fig_active, use_container_width=True)
 
 
 def fairness_page(bundle: DataBundle) -> None:
