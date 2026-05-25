@@ -315,28 +315,31 @@ def overview_page(bundle: DataBundle) -> None:
             "non_restaurant_exclude": "确认非餐饮",
         }
     )
-    scope_chart["核销支付金额RMB"] = pd.to_numeric(scope_chart["pay_amt_cny_yuan"], errors="coerce")
-    scope_chart["核销支付金额"] = scope_chart["核销支付金额RMB"].map(fmt_money)
+    scope_chart["活动成本RMB"] = pd.to_numeric(scope_chart["cost_money_yuan"], errors="coerce")
+    scope_chart["活动成本"] = scope_chart["活动成本RMB"].map(fmt_money)
     fig = px.bar(
         scope_chart,
         x="商户范围",
-        y="核销支付金额RMB",
+        y="活动成本RMB",
         color="商户范围",
-        text="核销支付金额",
+        text="活动成本",
         custom_data=["merchant_count"],
-        labels={"核销支付金额RMB": "核销支付金额 RMB", "商户范围": "商户范围"},
+        labels={"活动成本RMB": "活动成本 RMB", "商户范围": "商户范围"},
     )
     fig.update_traces(
         textposition="outside",
-        hovertemplate="商户范围=%{x}<br>核销支付金额=%{text}<br>商户数=%{customdata[0]:,.0f}<extra></extra>",
+        hovertemplate="商户范围=%{x}<br>活动成本=%{text}<br>商户数=%{customdata[0]:,.0f}<extra></extra>",
     )
     fig.update_layout(
         legend_title_text="商户范围",
         height=380,
         margin=dict(l=10, r=10, t=20, b=10),
-        yaxis_title="核销支付金额 RMB",
+        yaxis_title="活动成本 RMB",
     )
     st.plotly_chart(fig, use_container_width=True)
+
+    restaurant_effect_page(bundle)
+    new_active_page(bundle)
 
 
 def restaurant_effect_page(bundle: DataBundle) -> None:
@@ -461,16 +464,12 @@ def main() -> None:
     st.title(APP_TITLE)
     st.caption("NZ 餐饮汇率活动｜确认餐饮口径 + 配置偏差复盘")
 
-    tabs = st.tabs(["总览", "餐饮成效", "公平性/偏差", "新增与首次活跃", "重启规则"])
+    tabs = st.tabs(["总览", "公平性/偏差", "重启规则"])
     with tabs[0]:
         overview_page(bundle)
     with tabs[1]:
-        restaurant_effect_page(bundle)
-    with tabs[2]:
         fairness_page(bundle)
-    with tabs[3]:
-        new_active_page(bundle)
-    with tabs[4]:
+    with tabs[2]:
         rules_page(bundle)
 
     st.divider()
