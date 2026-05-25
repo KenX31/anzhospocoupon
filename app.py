@@ -346,7 +346,19 @@ def overview_page(bundle: DataBundle) -> None:
 
 
 def restaurant_effect_page(bundle: DataBundle) -> None:
+    created = bundle.frames["created_during_activity_summary"].iloc[0].to_dict()
+    first = bundle.frames["first_active_summary"].iloc[0].to_dict()
+
     st.subheader("确认餐饮商户成效")
+    st.markdown(
+        (
+            '<div class="callout">以下 KPI 是固定核销餐饮 MID 口径，包含活动期新接入/新产生交易的商户，'
+            f'其中活动期新增/创建 {fmt_int(created.get("created_during_activity_merchant_count"))} 家，'
+            f'活动期首次活跃 {fmt_int(first.get("first_active_during_activity_merchant_count"))} 家。'
+            "因此它适合看活动覆盖商户整体变化，不宜直接解读为严格同店促活。</div>"
+        ),
+        unsafe_allow_html=True,
+    )
     lift = bundle.metrics.get("restaurant_activity_lift", {})
     cols = st.columns(3)
     with cols[0]:
