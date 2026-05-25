@@ -305,17 +305,20 @@ def overview_page(bundle: DataBundle) -> None:
         kpi_card("活动总成本", fmt_money(all_scope.get("cost_money_yuan")), "全量核销口径")
 
     st.markdown("#### 商户范围拆分")
-    scope = bundle.frames["merchant_scope_review_summary"].copy()
-    scope["pay_share"] = pd.to_numeric(scope["pay_share"], errors="coerce")
-    scope["txn_share"] = pd.to_numeric(scope["txn_share"], errors="coerce")
-    scope_chart = scope[scope["segment"].isin(["restaurant_include", "non_restaurant_exclude"])].copy()
-    scope_chart["商户范围"] = scope_chart["segment"].map(
-        {
-            "restaurant_include": "确定餐饮",
-            "non_restaurant_exclude": "确认非餐饮",
-        }
+    scope_chart = pd.DataFrame(
+        [
+            {
+                "商户范围": "确定餐饮",
+                "活动成本RMB": restaurant.get("cost_money_yuan", 0),
+                "merchant_count": restaurant.get("merchant_count", 0),
+            },
+            {
+                "商户范围": "确认非餐饮",
+                "活动成本RMB": non_restaurant.get("cost_money_yuan", 0),
+                "merchant_count": non_restaurant.get("merchant_count", 0),
+            },
+        ]
     )
-    scope_chart["活动成本RMB"] = pd.to_numeric(scope_chart["cost_money_yuan"], errors="coerce")
     scope_chart["活动成本"] = scope_chart["活动成本RMB"].map(fmt_money)
     fig = px.bar(
         scope_chart,
