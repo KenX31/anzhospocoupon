@@ -460,6 +460,82 @@ def new_active_page(bundle: DataBundle) -> None:
     )
 
 
+def merchant_detail_page(bundle: DataBundle) -> None:
+    st.subheader("商户明细")
+    detail = bundle.frames.get("merchant_scope_review")
+    if detail is None or detail.empty:
+        st.info("当前数据包未包含商户明细文件。")
+        return
+
+    df = detail.copy()
+    df["cost_money_yuan"] = pd.to_numeric(df.get("cost_money_yuan"), errors="coerce").fillna(0)
+    df["pay_amt_cny_yuan"] = pd.to_numeric(df.get("pay_amt_cny_yuan"), errors="coerce").fillna(0)
+    df["save_money_yuan"] = pd.to_numeric(df.get("save_money_yuan"), errors="coerce").fillna(0)
+    df["coupon_txn_cnt"] = pd.to_numeric(df.get("coupon_txn_cnt"), errors="coerce").fillna(0)
+    df = df.sort_values("cost_money_yuan", ascending=False)
+    df["scope_label"] = df["scope_flag"].map(
+        {
+            "restaurant_include": "确定餐饮",
+            "non_restaurant_exclude": "确认非餐饮",
+            "needs_review": "待复核",
+        }
+    ).fillna(df["scope_flag"])
+
+    display_cols = [
+        "scope_label",
+        "sub_mchid",
+        "merchant_shortname",
+        "merchant_name",
+        "company_name",
+        "mcc_code",
+        "business_category",
+        "business_type",
+        "coupon_txn_cnt",
+        "pay_amt_cny_yuan",
+        "cost_money_yuan",
+        "save_money_yuan",
+        "review_reason",
+        "stores_address",
+    ]
+    display_cols = [col for col in display_cols if col in df.columns]
+    display = df[display_cols].rename(
+        columns={
+            "scope_label": "范围",
+            "sub_mchid": "商户ID",
+            "merchant_shortname": "商户简称",
+            "merchant_name": "商户名",
+            "company_name": "公司名",
+            "mcc_code": "MCC",
+            "business_category": "业务类目",
+            "business_type": "线上/线下",
+            "coupon_txn_cnt": "核销笔数",
+            "pay_amt_cny_yuan": "核销支付金额RMB",
+            "cost_money_yuan": "活动成本RMB",
+            "save_money_yuan": "用户节省RMB",
+            "review_reason": "复核原因",
+            "stores_address": "门店地址",
+        }
+    )
+
+    st.markdown('<div class="note">按活动成本从高到低排序；确认非餐饮商户已标红，优先用于复核配置偏差和成本占用。</div>', unsafe_allow_html=True)
+
+    def highlight_non_restaurant(row: pd.Series) -> list[str]:
+        if row.get("范围") == "确认非餐饮":
+            return ["background-color: #ffe1e1; color: #7a1616; font-weight: 600"] * len(row)
+        return [""] * len(row)
+
+    styled = display.style.apply(highlight_non_restaurant, axis=1).format(
+        {
+            "核销笔数": "{:,.0f}",
+            "核销支付金额RMB": "{:,.2f}",
+            "活动成本RMB": "{:,.2f}",
+            "用户节省RMB": "{:,.2f}",
+        },
+        na_rep="-",
+    )
+    st.dataframe(styled, use_container_width=True, hide_index=True, height=680)
+
+
 def rules_page(bundle: DataBundle) -> None:
     st.subheader("重启活动筛查规则")
     st.markdown(bundle.screening_rules)
@@ -479,12 +555,14 @@ def main() -> None:
     st.title(APP_TITLE)
     st.caption("NZ 餐饮汇率活动｜确认餐饮口径 + 配置偏差复盘")
 
-    tabs = st.tabs(["总览", "公平性/偏差", "重启规则"])
+    tabs = st.tabs(["总览", "公平性/偏差", "商户明细", "重启规则"])
     with tabs[0]:
         overview_page(bundle)
     with tabs[1]:
         fairness_page(bundle)
     with tabs[2]:
+        merchant_detail_page(bundle)
+    with tabs[3]:
         rules_page(bundle)
 
     st.divider()

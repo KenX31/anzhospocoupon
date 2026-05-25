@@ -1,0 +1,4 @@
+scope_flag,review_source,review_reason,web_source_url,manual_override_flag,manual_override_reason,sub_mchid,merchant_name,merchant_shortname,company_name,mcc_code,business_category,business_type,stores_address,coupon_txn_cnt,pay_amt_cny_yuan,cost_money_yuan,save_money_yuan,first_redeem_ds,last_redeem_ds
+non_restaurant_exclude,sample,Sample non-restaurant merchant for UI styling.,,,,,900000001,Sample Health Store,Sample Health,Sample Health Limited,5499,485,OFFLINE,"Auckland, NZ",120,250000.00,18000.00,20000.00,20250501,20260401
+restaurant_include,sample,Sample restaurant merchant.,,,,,900000002,Sample Dumpling House,Sample Dumpling,Sample Food Limited,5812,5812,OFFLINE,"Auckland, NZ",80,120000.00,6000.00,7000.00,20250415,20260402
+needs_review,sample,Sample merchant requiring review.,,,,,900000003,Sample Cafe Retail,Sample Cafe,Sample Cafe Limited,5499,494,BOTH,"Auckland, NZ",45,60000.00,2400.00,2800.00,20250601,20260403
